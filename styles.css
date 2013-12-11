@@ -1,0 +1,24 @@
+p {
+  font-family: 'Exo 2', sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 400px;
+  background-color: #f48126;
+  color: #fff;
+  padding: 18px 20px;
+  line-height: 1.5em;
+
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+}
+
+p#answer {
+  text-align: center;
+  font-size: 2em;
+  background-color: #1589FF;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
