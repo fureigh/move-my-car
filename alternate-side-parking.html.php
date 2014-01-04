@@ -28,12 +28,12 @@
       else {
         // Assignment operator is intentional.
         if ($tomorrow = strpos($asp_data, $date_string)) {
-          // Assignment operator is intentional.
           // @todo: Find out what time the RSS feed updates. If tomorrow were ever listed as the first day (i.e., today), 
           // you could get a false "not in effect" if alternate side parking rules were to be not in effect the day after tomorrow.
 
           $needle = 'Alternate side parking not in effect';
 
+          // Assignment operator is intentional.
           if ($not_in_effect = strpos($asp_data, $needle, $tomorrow)) {
             // Yes, alternate side parking is suspended tomorrow.
             // So no, you don't need to move your car.
