@@ -33,8 +33,7 @@
 
           $needle = 'Alternate side parking not in effect';
 
-          // Assignment operator is intentional.
-          if ($not_in_effect = strpos($asp_data, $needle, $tomorrow)) {
+          if (strpos($asp_data, $needle, $tomorrow) !== FALSE) {
             // Yes, alternate side parking is suspended tomorrow.
             // So no, you don't need to move your car.
             $the_verdict = 'No';
