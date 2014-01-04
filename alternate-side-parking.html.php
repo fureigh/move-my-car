@@ -80,10 +80,9 @@
           $date_string  = 'January 1, ' . $year;
         }
         else {
-          // Saturday, December 15, 2013
-          // l, F j, Y. But we don't actually need the day of the week; searching for the day, month, year will suffice.
-          // @todo: Find out whether the 311 uses leading zeros for days. If so, change j to d.
-          $date_string  = date('F') . ' ' . (date('j') + 1) . ', ' . date('Y');
+          // Saturday, January 04, 2014
+          // l, F d, Y. But we don't actually need the day of the week; searching for the day, month, year will suffice.
+          $date_string  = date('F') . ' ' . (date('d') + 1) . ', ' . date('Y');
         }
 
         if ($date_string) {
