@@ -32,19 +32,28 @@
           // you could get a false "not in effect" if alternate side parking rules were to be not in effect the day after tomorrow.
 
           $needle = 'Alternate side parking not in effect';
+          $not_available = 'status not available';
 
-          if (strpos($asp_data, $needle, $tomorrow) !== FALSE) {
-            // Yes, alternate side parking is suspended tomorrow.
-            // So no, you don't need to move your car.
-            $the_verdict = 'No';
+          // If a status *is* available:
+          if (strpos($asp_data, $not_available, $tomorrow) === FALSE) {
+            if (strpos($asp_data, $needle, $tomorrow) !== FALSE) {
+              // Yes, alternate side parking is suspended tomorrow.
+              // So no, you don't need to move your car.
+              $the_verdict = 'No';
 
-            // @todo: See whether 311 provides a description or whether you can only get it from NYC Open Data's iCal file.
-            $description = 'You don\'t have to move your car before tomorrow. Lucky you.';
+              // @todo: See whether 311 provides a description or whether you can only get it from NYC Open Data's iCal file.
+              $description = 'You don\'t have to move your car before tomorrow. Lucky you.';
+            }
+            else {
+              // Sorry, bub, alternate side parking rules are in effect tomorrow.
+              $the_verdict = 'Yes';
+              $description = 'You gotta move your car before tomorrow. Or <a href="http://transalt.org" target="_blank">switch to a bike</a>.';
+            }
           }
           else {
-            // Sorry, bub, alternate side parking rules are in effect tomorrow.
-            $the_verdict = 'Yes';
-            $description = 'You gotta move your car before tomorrow. Or <a href="http://transalt.org" target="_blank">switch to a bike</a>.';
+            // @todo: Scrape the most recent @nycasp tweet.
+            $the_verdict = 'Unclear';
+            $description = 'Check <a href="https://twitter.com/nycasp">@nycasp</a> for the latest information.';
           }
         }
         // @todo: Create a set_error function. Call it above and here too.
