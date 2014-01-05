@@ -19,7 +19,9 @@
         $asp_data = file_get_contents($filename);
       }
 
-      $date_string = get_date_string();
+      // Saturday, January 04, 2014
+      // l, F d, Y. But we don't actually need the day of the week; searching for the day, month, year will suffice.
+      $date_string = date('F d, Y', strtotime('+1 day'));
 
       if (is_null($date_string) || !$asp_data) {
         $the_verdict = 'Whoops.';
@@ -53,7 +55,7 @@
           else {
             // @todo: Scrape the most recent @nycasp tweet.
             $the_verdict = 'Unclear';
-            $description = 'Check <a href="https://twitter.com/nycasp">@nycasp</a> for the latest information.';
+            $description = "Our <a href=\"$filename\">usual source</a> doesn't say. Check <a href=\"https://twitter.com/nycasp\">@nycasp</a> for the latest information.";
           }
         }
         // @todo: Create a set_error function. Call it above and here too.
@@ -62,16 +64,6 @@
       // It sure should exist, but being on the safe side...
       if (!is_null($the_verdict)) {
         print $the_verdict . '!';
-      }
-
-      function get_date_string() {
-        // Saturday, January 04, 2014
-        // l, F d, Y. But we don't actually need the day of the week; searching for the day, month, year will suffice.
-        $tomorrow_timestamp = time() + (24 * 60 * 60); // Tomorrow.
-        // This approach preserves the leading zero (ex: Jan 04) for the day.
-        $date_string  = date('F d, Y', $tomorrow_timestamp);
-
-        return $date_string;
       }
 
     ?>
