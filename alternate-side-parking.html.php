@@ -66,7 +66,7 @@
 
       function get_date_string() {
         // If today's the last day of the month,
-        if (date('j') == date('t')) {
+        if (date('d') == date('t')) {
           // Tomorrow's the first day of the next month.
           $month = date('F');
 
@@ -77,15 +77,19 @@
           else {
             $year = date('Y');
           }
+          // @todo: FIX THIS.
           $date_string  = 'January 1, ' . $year;
         }
         else {
           // Saturday, January 04, 2014
           // l, F d, Y. But we don't actually need the day of the week; searching for the day, month, year will suffice.
-          $date_string  = date('F') . ' ' . (date('d') + 1) . ', ' . date('Y');
+          $tomorrow_time = time() + (24 * 60 * 60); // Tomorrow.
+          // This approach preserves the leading zero (ex: Jan 04) for the day.
+          $date_string  = date('F') . ' ' . date('d', $tomorrow_time) . ', ' . date('Y');
         }
 
         if ($date_string) {
+          print $date_string;
           return $date_string;
         }
         else {
