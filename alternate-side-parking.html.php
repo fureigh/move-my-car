@@ -21,7 +21,7 @@
 
       $date_string = get_date_string();
 
-      if (!($date_string && $asp_data)) {
+      if (is_null($date_string) || !$asp_data) {
         $the_verdict = 'Whoops.';
         $description = "There's a problem with the date. Bug <a href=\"http://www.fureigh.com\">Fureigh</a> about it, will you?";
       }
@@ -65,36 +65,13 @@
       }
 
       function get_date_string() {
-        // If today's the last day of the month,
-        if (date('d') == date('t')) {
-          // Tomorrow's the first day of the next month.
-          $month = date('F');
+        // Saturday, January 04, 2014
+        // l, F d, Y. But we don't actually need the day of the week; searching for the day, month, year will suffice.
+        $tomorrow_timestamp = time() + (24 * 60 * 60); // Tomorrow.
+        // This approach preserves the leading zero (ex: Jan 04) for the day.
+        $date_string  = date('F d, Y', $tomorrow_timestamp);
 
-          // If this is the last day of December, tomorrow's a new year too.
-          if ($month == 'December') {
-            $year = date('Y') + 1;
-          }
-          else {
-            $year = date('Y');
-          }
-          // @todo: FIX THIS.
-          $date_string  = 'January 1, ' . $year;
-        }
-        else {
-          // Saturday, January 04, 2014
-          // l, F d, Y. But we don't actually need the day of the week; searching for the day, month, year will suffice.
-          $tomorrow_time = time() + (24 * 60 * 60); // Tomorrow.
-          // This approach preserves the leading zero (ex: Jan 04) for the day.
-          $date_string  = date('F') . ' ' . date('d', $tomorrow_time) . ', ' . date('Y');
-        }
-
-        if ($date_string) {
-          print $date_string;
-          return $date_string;
-        }
-        else {
-          return FALSE;
-        }
+        return $date_string;
       }
 
     ?>
