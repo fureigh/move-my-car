@@ -15,16 +15,22 @@
       $filename = 'http://www1.nyc.gov/apps/311/311Today.rss';
       $file_headers = @get_headers($filename);
 
-      if (($file_headers[0] != 'HTTP/1.0 404 Not Found') && ($file_headers[0] != 'HTTP/1.0 302 Found')) {
-        $asp_data = file_get_contents($filename);
+      
+      // If the first digit after 'HTTP/1.x ' is a 4 or a 5, we have a problem.
+      if ($file_headers[0][9] == '4' || $file_headers[0][9] == '5' || !strpos($file_headers[0], 'HTTP request failed')) {
+        $the_verdict = 'Whoops';
+        $description = "Looks like there's a problem with the NYC Open Data. Womp-womp.";
       }
+      else {
+        $asp_data = file_get_contents($filename);
+      } 
 
       // Saturday, January 04, 2014
       // l, F d, Y. But we don't actually need the day of the week; searching for the day, month, year will suffice.
       $date_string = date('F d, Y', strtotime('+1 day'));
 
-      if (is_null($date_string) || !$asp_data) {
-        $the_verdict = 'Whoops.';
+      if (is_null($date_string)) {
+        $the_verdict = 'Whoops';
         $description = "There's a problem with the date. Bug <a href=\"http://www.fureigh.com\">Fureigh</a> about it, will you?";
       }
       else {
